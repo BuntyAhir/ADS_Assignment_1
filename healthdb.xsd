@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!-- start of root element i.e HEALTHDB -->
+	<xs:element name="HEALTHDB">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="S1_PATIENTS"/>				
+				<xs:element name="S1_CASES"/>
+				<xs:element name="S2_CLAIMS"/>
+				<xs:element name="S3_TREATMENTS"/>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:key name="KeyforPatient">
+			<xs:selector xpath="S1_PATIENTS/PATIENT"/>
+			<xs:field xpath="SSN"/>
+		</xs:key>
+		<xs:key name="KeyforCase">
+			<xs:selector xpath="S1_CASES/CASE"/>
+			<xs:field xpath="CaseId"/>
+		</xs:key>
+		<!-- creating a key reference from SSN(CASE) to SSN (PATIENT)-->
+		<xs:keyref name="RefkeyforCase" refer="KeyforPatient">
+			<xs:selector xpath="S1_CASES/CASE"/>
+			<xs:field xpath="SSN"/>
+		</xs:keyref>
+		<xs:key name="KeyforClaim">
+			<xs:selector xpath="S2_CLAIMS/CLAIM"/>
+			<xs:field xpath="CaseId"/>
+		</xs:key>
+		<!-- creating a key reference from CaseId(CLAIM) to CaseId (CASE)-->
+		<xs:keyref name="RefkeyforClaim" refer="KeyforCase">
+			<xs:selector xpath="S2_CLAIMS/CLAIM"/>
+			<xs:field xpath="CaseId"/>
+		</xs:keyref>
+		<xs:key name="KeyforTreatment">
+			<xs:selector xpath="S3_TREATMENTS/TREATMENT"/>
+			<xs:field xpath="CaseId"/>
+		</xs:key>
+		<!-- creating a key reference from CaseId(TREATMENT) to CaseId (CASE)-->
+		<xs:keyref name="RefkeyforTreatment" refer="KeyforCase">
+			<xs:selector xpath="S3_TREATMENTS/TREATMENT"/>
+			<xs:field xpath="CaseId"/>
+		</xs:keyref>
+	</xs:element>
+	<!-- close of root element i.e HEALTHDB -->
+	<!-- start of element S1_PATIENTS -->
+	<xs:element name="S1_PATIENTS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PATIENT" maxOccurs="unbounded"/> <!-- As PATIENT occurs 1 or more times, the default in representation of minOccurs is 1, there is no need to represent minOccurs here-->
+			</xs:sequence>
+		</xs:complexType>
+		<!-- close of element S1_PATIENTS -->
+	</xs:element>
+	<!-- start of element Patient-->
+	<xs:element name ="PATIENT">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="SSN" type="xs:string"/><!--in this schema SSN can be considered as string as we dont perform any mathematical operations on SSN -->
+			<xs:element name="PName" type="xs:string"/>
+			<xs:element name="HealthPlan" default="A">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="A"/>
+						<xs:enumeration value="B"/>
+						<xs:enumeration value="C"/>
+						<xs:enumeration value="D"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+	<!-- end of element PATIENT-->
+	<!-- start of element S1_CASES -->
+	<xs:element name="S1_CASES">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CASE" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<!-- close of element S1_CASES -->
+	</xs:element>
+	<!-- start of element CASE-->
+	<xs:element name ="CASE">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="CaseId" type="xs:integer"/>
+			<xs:element name="SSN" type="xs:string"/>
+			<xs:element name="InjuryDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+	<!-- end of element CASE-->
+	<!-- start of element S2_CLAIMS -->
+	<xs:element name="S2_CLAIMS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CLAIM" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<!-- close of element S2_CLAIMS -->
+	</xs:element>
+	<!-- start of element CLAIM-->
+	<xs:element name ="CLAIM">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="CaseId" type="xs:integer"/>
+			<xs:element name="ClaimDate" type="xs:string"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+			<xs:element name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="InPatient"/>
+						<xs:enumeration value="Emergency"/>
+						<xs:enumeration value="OutPatient"/>
+						<xs:enumeration value="Prescription"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+	<!-- end of element CLAIM-->
+	<!-- start of element S3_TREATMENTS -->
+	<xs:element name="S3_TREATMENTS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TREATMENT" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<!-- close of element S3_TREATMENTS -->
+	</xs:element>
+	<!-- start of element TREATMENT-->
+	<xs:element name ="TREATMENT">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="CaseId" type="xs:integer"/>
+			<xs:element name="DName" type="xs:string"/>
+			<xs:element name="TDate" type="xs:string"/>
+			<xs:element name="Disease" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+	<!-- end of element TREATMENT-->
+</xs:schema>

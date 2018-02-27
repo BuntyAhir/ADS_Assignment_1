@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<HEALTHDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="healthdb.xsd">
+<!-- S1 indicates on site S1 -->
+	<S1_PATIENTS>
+		<PATIENT>
+			<SSN>123</SSN>
+			<PName>John</PName>
+			<HealthPlan>B</HealthPlan>
+		</PATIENT>
+		<PATIENT>
+			<SSN>234</SSN>
+			<PName>Clark</PName>
+			<HealthPlan>C</HealthPlan>
+		</PATIENT>
+	</S1_PATIENTS>
+	<S1_CASES>
+		<CASE>
+			<CaseId>1</CaseId>
+			<SSN>123</SSN>
+			<InjuryDate>10/14/2003</InjuryDate>
+		</CASE>
+		<CASE>
+			<CaseId>2</CaseId>
+			<SSN>234</SSN>
+			<InjuryDate>06/24/2004</InjuryDate>
+		</CASE>
+		<CASE>
+			<CaseId>3</CaseId>
+			<SSN>123</SSN>
+			<InjuryDate>10/12/2004</InjuryDate>
+		</CASE>
+	</S1_CASES>
+<!-- S2 indicates on site S2 -->
+	<S2_CLAIMS>
+		<CLAIM>
+			<CaseId>1</CaseId>
+			<ClaimDate>03/05/2004</ClaimDate>
+			<Amount>25000</Amount>
+			<Type>Emergency</Type>
+		</CLAIM>
+		<CLAIM>
+			<CaseId>3</CaseId>
+			<ClaimDate>11/14/2004</ClaimDate>
+			<Amount>40000</Amount>
+			<Type>InPatient</Type>
+		</CLAIM>
+	</S2_CLAIMS>
+	<S3_TREATMENTS>
+		<TREATMENT>
+			<CaseId>1</CaseId>
+			<DName>Mike</DName>
+			<TDate>10/15/2003</TDate>
+			<Disease>SmallPox</Disease>
+		</TREATMENT>
+		<TREATMENT>
+			<CaseId>3</CaseId>
+			<DName>Blake</DName>
+			<TDate>10/14/2004</TDate>
+			<Disease>LegInjury</Disease>
+		</TREATMENT>
+	</S3_TREATMENTS>
+</HEALTHDB>
